@@ -1,0 +1,135 @@
+<div class="page-header">
+    <div>
+        <h2>Gestión de departamentos</h2>
+        <p>Administra los departamentos y el país al que pertenecen.</p>
+    </div>
+</div>
+
+@if (mensaje) {
+<div class="mensaje" [class.mensaje-exito]="tipoMensaje === 'exito'" [class.mensaje-error]="tipoMensaje === 'error'"
+    role="status">
+    {{ mensaje }}
+</div>
+}
+
+<div class="card">
+    <div class="card-header">
+        <div>
+            <h3>
+                {{ departamentoEditando === null ? 'Registrar departamento' : 'Editar departamento' }}
+            </h3>
+            <p>Selecciona el país y escribe el nombre del departamento.</p>
+        </div>
+    </div>
+
+    <form (ngSubmit)="guardar()">
+        <div class="form-grid">
+            <div class="campo">
+                <label for="paisId">País</label>
+
+                <select id="paisId" name="paisId" [(ngModel)]="formulario.paisId" required>
+                    <option [ngValue]="0" disabled>Selecciona un país</option>
+
+                    @for (pais of paises; track pais.paisId) {
+                    <option [ngValue]="pais.paisId">
+                        {{ pais.nombre }}
+                    </option>
+                    }
+                </select>
+            </div>
+
+            <div class="campo">
+                <label for="nombre">Nombre del departamento</label>
+
+                <input id="nombre" name="nombre" type="text" [(ngModel)]="formulario.nombre"
+                    placeholder="Ej. Cundinamarca" maxlength="100" required />
+            </div>
+
+            <div class="campo">
+                <label>Estado del departamento</label>
+                <div class="estado-control">
+                    <span>Define si el departamento está habilitado.</span>
+                    <label class="switch-label">
+                        <input type="checkbox" name="activo" [(ngModel)]="formulario.activo" />
+                        {{ formulario.activo ? 'Activo' : 'Inactivo' }}
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            @if (departamentoEditando !== null) {
+            <button type="button" class="btn btn-secondary" (click)="limpiarFormulario()" [disabled]="guardando">
+                Cancelar
+            </button>
+
+            <button type="submit" class="btn btn-primary" [disabled]="guardando">
+                {{ guardando ? 'Actualizando...' : 'Actualizar departamento' }}
+            </button>
+            } @else {
+            <button type="submit" class="btn btn-primary" [disabled]="guardando">
+                {{ guardando ? 'Registrando...' : 'Registrar departamento' }}
+            </button>
+            }
+        </div>
+    </form>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div>
+            <h3>Departamentos registrados</h3>
+            <p>{{ departamentos.length }} registros encontrados</p>
+        </div>
+    </div>
+
+    @if (cargando) {
+    <div class="estado-vacio">Cargando departamentos...</div>
+    } @else if (departamentos.length === 0) {
+    <div class="estado-vacio">
+        <strong>No hay departamentos registrados</strong>
+        Registra el primero con el formulario anterior.
+    </div>
+    } @else {
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Departamento</th>
+                    <th>País</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @for (departamento of departamentos; track departamento.departamentoId) {
+                <tr>
+                    <td class="nombre-pais">{{ departamento.nombre }}</td>
+                    <td>{{ obtenerNombrePais(departamento.paisId) }}</td>
+                    <td>
+                        <span class="badge-estado" [class.badge-activo]="departamento.activo"
+                            [class.badge-inactivo]="!departamento.activo">
+                            {{ departamento.activo ? 'Activo' : 'Inactivo' }}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="acciones">
+                            <button type="button" class="btn-icon" title="Editar departamento"
+                                aria-label="Editar departamento" (click)="editar(departamento)">
+                                ✏️
+                            </button>
+
+                            <button type="button" class="btn-icon eliminar" title="Eliminar departamento"
+                                aria-label="Eliminar departamento" (click)="eliminar(departamento)">
+                                🗑️
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    }
+</div>

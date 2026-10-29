@@ -1,0 +1,140 @@
+<div class="page-header">
+    <div>
+        <h2>Gestión de ciudades</h2>
+        <p>Administra las ciudades y sus departamentos asociados.</p>
+    </div>
+</div>
+
+@if (mensaje) {
+<div class="mensaje" [class.mensaje-exito]="tipoMensaje === 'exito'" [class.mensaje-error]="tipoMensaje === 'error'"
+    role="status">
+    {{ mensaje }}
+</div>
+}
+
+<div class="card">
+    <div class="card-header">
+        <div>
+            <h3>
+                {{ ciudadEditando === null ? 'Registrar ciudad' : 'Editar ciudad' }}
+            </h3>
+            <p>Selecciona el departamento y escribe el nombre de la ciudad.</p>
+        </div>
+    </div>
+
+    <form (ngSubmit)="guardar()">
+        <div class="form-grid">
+            <div class="campo">
+                <label for="departamentoId">Departamento</label>
+
+                <select id="departamentoId" name="departamentoId" [(ngModel)]="formulario.departamentoId" required>
+                    <option [ngValue]="0" disabled>
+                        Selecciona un departamento
+                    </option>
+
+                    @for (departamento of departamentos; track departamento.departamentoId) {
+                    <option [ngValue]="departamento.departamentoId">
+                        {{ departamento.nombre }} —
+                        {{ obtenerNombrePaisPorDepartamento(departamento.departamentoId) }}
+                    </option>
+                    }
+                </select>
+            </div>
+
+            <div class="campo">
+                <label for="nombre">Nombre de la ciudad</label>
+
+                <input id="nombre" name="nombre" type="text" [(ngModel)]="formulario.nombre" placeholder="Ej. Soacha"
+                    maxlength="100" required />
+            </div>
+
+            <div class="campo">
+                <label>Estado de la ciudad</label>
+                <div class="estado-control">
+                    <span>Define si la ciudad está habilitada.</span>
+                    <label class="switch-label">
+                        <input type="checkbox" name="activo" [(ngModel)]="formulario.activo" />
+                        {{ formulario.activo ? 'Activo' : 'Inactivo' }}
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            @if (ciudadEditando !== null) {
+            <button type="button" class="btn btn-secondary" (click)="limpiarFormulario()" [disabled]="guardando">
+                Cancelar
+            </button>
+
+            <button type="submit" class="btn btn-primary" [disabled]="guardando">
+                {{ guardando ? 'Actualizando...' : 'Actualizar ciudad' }}
+            </button>
+            } @else {
+            <button type="submit" class="btn btn-primary" [disabled]="guardando">
+                {{ guardando ? 'Registrando...' : 'Registrar ciudad' }}
+            </button>
+            }
+        </div>
+    </form>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div>
+            <h3>Ciudades registradas</h3>
+            <p>{{ ciudades.length }} registros encontrados</p>
+        </div>
+    </div>
+
+    @if (cargando) {
+    <div class="estado-vacio">Cargando ciudades...</div>
+    } @else if (ciudades.length === 0) {
+    <div class="estado-vacio">
+        <strong>No hay ciudades registradas</strong>
+        Registra una ciudad usando el formulario anterior.
+    </div>
+    } @else {
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Ciudad</th>
+                    <th>Departamento</th>
+                    <th>País</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @for (ciudad of ciudades; track ciudad.ciudadId) {
+                <tr>
+                    <td class="nombre-pais">{{ ciudad.nombre }}</td>
+                    <td>{{ obtenerNombreDepartamento(ciudad.departamentoId) }}</td>
+                    <td>{{ obtenerNombrePaisPorDepartamento(ciudad.departamentoId) }}</td>
+                    <td>
+                        <span class="badge-estado" [class.badge-activo]="ciudad.activo"
+                            [class.badge-inactivo]="!ciudad.activo">
+                            {{ ciudad.activo ? 'Activo' : 'Inactivo' }}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="acciones">
+                            <button type="button" class="btn-icon" title="Editar ciudad" aria-label="Editar ciudad"
+                                (click)="editar(ciudad)">
+                                ✏️
+                            </button>
+
+                            <button type="button" class="btn-icon eliminar" title="Eliminar ciudad"
+                                aria-label="Eliminar ciudad" (click)="eliminar(ciudad)">
+                                🗑️
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    }
+</div>

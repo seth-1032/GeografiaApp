@@ -1,0 +1,269 @@
+:host {
+    display: block;
+    min-height: 100vh;
+    color: #1e293b;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+    background: #f5f7fb;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* Menú lateral */
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 260px;
+    min-width: 260px;
+    min-height: 100vh;
+    padding: 28px 18px 20px;
+    color: #dbe4f0;
+    background: #14213d;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 8px 34px;
+}
+
+.brand-icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
+    color: white;
+    background: #3b82f6;
+    font-size: 23px;
+    font-weight: 800;
+}
+
+.brand-text h2 {
+    margin: 0;
+    color: white;
+    font-size: 17px;
+}
+
+.brand-text span {
+    display: block;
+    margin-top: 5px;
+    color: #9eacc2;
+    font-size: 12px;
+}
+
+.menu-section {
+    flex: 1;
+}
+
+.menu-label {
+    display: block;
+    margin: 0 10px 14px;
+    color: #8190a9;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 14px;
+    border-radius: 9px;
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.menu-item:hover {
+    color: white;
+    background: #243451;
+}
+
+.menu-item.active {
+    color: white;
+    background: #2563eb;
+    font-weight: 600;
+}
+
+.menu-icon {
+    width: 23px;
+    text-align: center;
+    font-size: 17px;
+}
+
+.sidebar-footer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 8px 0;
+    border-top: 1px solid #30405b;
+}
+
+.status-indicator {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #34d399;
+}
+
+.sidebar-footer strong,
+.sidebar-footer span {
+    display: block;
+    font-size: 12px;
+}
+
+.sidebar-footer strong {
+    color: white;
+}
+
+.sidebar-footer span {
+    margin-top: 4px;
+    color: #9eacc2;
+}
+
+/* Contenido principal */
+
+.main-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 25px 36px;
+    border-bottom: 1px solid #e5eaf1;
+    background: white;
+}
+
+.breadcrumb {
+    color: #8290a5;
+    font-size: 12px;
+}
+
+.topbar h1 {
+    margin: 8px 0 0;
+    color: #17233b;
+    font-size: 24px;
+}
+
+.user-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-avatar {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: #1d4ed8;
+    background: #dbeafe;
+    font-weight: 700;
+}
+
+.user-info strong,
+.user-info span {
+    display: block;
+    font-size: 12px;
+}
+
+.user-info strong {
+    color: #26354c;
+}
+
+.user-info span {
+    margin-top: 4px;
+    color: #8290a5;
+}
+
+.page-content {
+    flex: 1;
+    padding: 32px 36px;
+}
+
+.footer {
+    padding: 18px 36px;
+    border-top: 1px solid #e5eaf1;
+    color: #8290a5;
+    background: white;
+    font-size: 12px;
+}
+
+/* Adaptación a pantallas pequeñas */
+
+@media (max-width: 760px) {
+    .layout {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        min-width: 0;
+        min-height: auto;
+        padding: 18px;
+    }
+
+    .brand {
+        padding-bottom: 20px;
+    }
+
+    .menu-label,
+    .sidebar-footer {
+        display: none;
+    }
+
+    .menu {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .menu-item {
+        flex: 1;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .topbar {
+        padding: 22px 18px;
+    }
+
+    .topbar h1 {
+        font-size: 20px;
+    }
+
+    .user-info {
+        display: none;
+    }
+
+    .page-content {
+        padding: 22px 18px;
+    }
+
+    .footer {
+        padding: 16px 18px;
+    }
+}

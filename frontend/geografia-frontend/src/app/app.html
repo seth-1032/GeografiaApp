@@ -1,0 +1,72 @@
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">G</div>
+
+      <div class="brand-text">
+        <h2>GeografiaApp</h2>
+        <span>Gestión geográfica</span>
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <span class="menu-label">ADMINISTRACIÓN</span>
+
+      <nav class="menu">
+        <a routerLink="/paises" routerLinkActive="active" class="menu-item">
+          <span class="menu-icon">🌎</span>
+          <span>Países</span>
+        </a>
+
+        <a routerLink="/departamentos" routerLinkActive="active" class="menu-item">
+          <span class="menu-icon">🏢</span>
+          <span>Departamentos</span>
+        </a>
+
+        <a routerLink="/ciudades" routerLinkActive="active" class="menu-item">
+          <span class="menu-icon">🏙️</span>
+          <span>Ciudades</span>
+        </a>
+      </nav>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="status-indicator"></div>
+
+      <div>
+        <strong>GeografiaApp</strong>
+        <span>Panel administrativo</span>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="topbar">
+      <div>
+        <span class="breadcrumb">Aplicación / Administración</span>
+        <h1>Gestión geográfica</h1>
+      </div>
+
+      <div class="user-badge">
+        <div class="user-avatar">A</div>
+
+        <div class="user-info">
+          <strong>Administrador</strong>
+          <span>Sistema</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="page-content">
+      <router-outlet></router-outlet>
+    </section>
+
+    <footer class="footer">
+      GeografiaApp · Gestión de información geográfica
+    </footer>
+
+  </main>
+
+</div>

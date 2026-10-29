@@ -1,0 +1,129 @@
+<div class="page-header">
+    <div>
+        <h2>Gestión de países</h2>
+        <p>Administra los países registrados en el sistema.</p>
+    </div>
+</div>
+
+@if (mensaje) {
+<div class="mensaje" [class.mensaje-exito]="tipoMensaje === 'exito'" [class.mensaje-error]="tipoMensaje === 'error'"
+    role="status">
+    {{ mensaje }}
+</div>
+}
+
+<div class="card">
+    <div class="card-header">
+        <div>
+            <h3>{{ paisEditando === null ? 'Registrar país' : 'Editar país' }}</h3>
+            <p>Completa los datos y configura su estado.</p>
+        </div>
+    </div>
+
+    <form (ngSubmit)="guardar()">
+        <div class="form-grid">
+            <div class="campo">
+                <label for="nombre">Nombre del país</label>
+                <input id="nombre" name="nombre" type="text" [(ngModel)]="formulario.nombre" placeholder="Ej. Colombia"
+                    required />
+            </div>
+
+            <div class="campo">
+                <label for="codigoIso2">Código ISO</label>
+                <input id="codigoIso2" name="codigoIso2" type="text" [(ngModel)]="formulario.codigoIso2"
+                    placeholder="Ej. CO" maxlength="2" />
+            </div>
+
+            <div class="campo">
+                <label>Estado del país</label>
+                <div class="estado-control">
+                    <span>Define si el país está habilitado.</span>
+                    <label class="switch-label">
+                        <input type="checkbox" name="activo" [(ngModel)]="formulario.activo" />
+                        {{ formulario.activo ? 'Activo' : 'Inactivo' }}
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            @if (paisEditando !== null) {
+            <button type="button" class="btn btn-secondary" (click)="limpiarFormulario()" [disabled]="guardando">
+                Cancelar
+            </button>
+
+            <button type="submit" class="btn btn-primary" [disabled]="guardando">
+                {{ guardando ? 'Actualizando...' : 'Actualizar país' }}
+            </button>
+            } @else {
+            <button type="submit" class="btn btn-primary" [disabled]="guardando">
+                {{ guardando ? 'Registrando...' : 'Registrar país' }}
+            </button>
+            }
+        </div>
+
+    </form>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div>
+            <h3>Países registrados</h3>
+            <p>{{ paises.length }} registros encontrados</p>
+        </div>
+    </div>
+
+    @if (cargando) {
+    <div class="estado-vacio">Cargando países...</div>
+    } @else if (paises.length === 0) {
+    <div class="estado-vacio">
+        <strong>No hay países registrados</strong>
+        Registra un país usando el formulario anterior.
+    </div>
+    } @else {
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>País</th>
+                    <th>Código ISO</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @for (pais of paises; track pais.paisId) {
+                <tr>
+                    <td class="nombre-pais">{{ pais.nombre }}</td>
+                    <td>
+                        <span class="codigo-pais">
+                            {{ pais.codigoIso2 || '—' }}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge-estado" [class.badge-activo]="pais.activo"
+                            [class.badge-inactivo]="!pais.activo">
+                            {{ pais.activo ? 'Activo' : 'Inactivo' }}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="acciones">
+                            <button type="button" class="btn-icon" title="Editar país" aria-label="Editar país"
+                                (click)="editar(pais)">
+                                ✏️
+                            </button>
+
+                            <button type="button" class="btn-icon eliminar" title="Eliminar país"
+                                aria-label="Eliminar país" (click)="eliminar(pais)">
+                                🗑️
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    }
+</div>
